@@ -10,6 +10,11 @@ permissions:
     id-token: write
     contents: read
 
+defaults:
+    run:
+        shell: bash
+        working-directory: ./infra
+
 jobs:
   terraform:
     name: Terraform Workflow
