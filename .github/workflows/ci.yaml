@@ -34,10 +34,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}  # GitHub SecretsにIAMロールを指定
 
       - name: Terraform Init
-        run: |
-            terraform init \
-            -backend-config="backend_bucket_name=my-tfstate-bucket-kamakari" \
-            -no-color
+        run: terraform init -no-color
 
       - name: Terraform Plan
         run: terraform plan -input=false -no-color
