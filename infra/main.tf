@@ -49,29 +49,6 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-# ALBの作成
-resource "aws_lb" "alb" {
-  name               = "my-alb"
-  internal           = false
-  load_balancer_type = "application"
-  subnets            = [aws_subnet.public.id]
-  security_groups    = [aws_security_group.web_sg.id]
-  tags = {
-    Name = "test-kamakari"
-  }
-}
-
-# ALBターゲットグループの作成
-resource "aws_lb_target_group" "app_tg" {
-  name     = "my-app-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
-  tags = {
-    Name = "test-kamakari"
-  }
-}
-
 # ECRの作成
 resource "aws_ecr_repository" "app" {
   name = "my-app"
@@ -146,11 +123,6 @@ resource "aws_ecs_service" "my_service" {
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.app_tg.arn
-    container_name   = "my-container"
-    container_port   = 80
-  }
   tags = {
     Name = "test-kamakari"
   }
