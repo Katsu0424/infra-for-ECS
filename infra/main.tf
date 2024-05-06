@@ -27,9 +27,9 @@ resource "aws_vpc" "main" {
 
 # パブリックサブネットの作成
 resource "aws_subnet" "public" {
-  vpc_id                   = aws_vpc.main.id
-  cidr_block               = "10.0.1.0/24"
-  map_public_ip_on_launch  = true
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
   tags = {
     Name = "test-kamakari"
   }
@@ -113,17 +113,17 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
 
 # タスク定義の作成
 resource "aws_ecs_task_definition" "my_task" {
-  family                = "my-task"
-  network_mode          = "awsvpc"
+  family                   = "my-task"
+  network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                   = "256"
-  memory                = "512"
+  cpu                      = "256"
+  memory                   = "512"
 
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
 
   container_definitions = jsonencode([{
-    name  = "my-container"
-    image = "${aws_ecr_repository.app.repository_url}:latest"
+    name      = "my-container"
+    image     = "${aws_ecr_repository.app.repository_url}:latest"
     essential = true
     portMappings = [{
       containerPort = 80
@@ -141,8 +141,8 @@ resource "aws_ecs_service" "my_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets = [aws_subnet.public.id]
-    security_groups = [aws_security_group.web_sg.id]
+    subnets          = [aws_subnet.public.id]
+    security_groups  = [aws_security_group.web_sg.id]
     assign_public_ip = true
   }
 
