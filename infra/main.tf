@@ -67,7 +67,7 @@ resource "aws_ecs_cluster" "app_cluster" {
 
 # タスク実行IAMロールの作成
 resource "aws_iam_role" "ecs_task_execution" {
-  name = "ecsTaskExecutionRole"
+  name = "ecsTaskExecutionRoleForTest"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
